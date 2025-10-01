@@ -1,36 +1,53 @@
-// es-module -> import , commonjs -> require
-const express = require("express"); //express 안에 구현되어있는 코드들을 express 객체 형태로 불러옴
-const cors = require("cors"); //설치한 의존성 패키지 cors 불러오기
-const dotenv = requir("dotenv");
-const { createCliend } = require("@supabase/supabase-js"); //구조분해할당
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const { createClient } = require("@supabase/supabase-js"); // 구조분해 할당
 
-dotenv.config(); // .env의 KEY를 퍼올 수 있게함
-//NODE -> process.env (환경변수) cf. env file
+dotenv.config(); // .env -> KEY => SUPABASE_KEY
+// NODE -> process.env (환경변수) // cf. env file
 
+// const supabaseKey = process.env.SUPABASE_KEY;
+// const supabaseUrl = process.env.SUPABASE_URL;
 const { SUPABASE_KEY: supabaseKey, SUPABASE_URL: supabaseUrl } = process.env;
 console.log("supabaseKey", supabaseKey); // 확인 (npm run dev)
 console.log("supabaseUrl", supabaseUrl);
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const app = express(); // () -> 호출해서 사용하겠다
-// 포트 -> 컴퓨터 서비스가 1개만 있는게 아님 ex_ email, db, server1, server2....
-// 1번 ~ 2xxxx번 => 번호를 통한 통신
-const port = 3000; //cra. next -> express. / 5173.
-//localhost -> 3000 <-> 5500 구분
+const app = express();
+const port = 3000;
 
-// CORS 해결을 위한 미들웨어 적용
-app.use(cors()); //모든 출처에 대한 허용(보안적으로 바람직하지 않음)
+app.use(cors());
+app.use(express.json()); // req.body -> json
 
-//get,post
-// app.방식(접속경로, 핸들러)
-//localhost:3000/
 app.get("/", (req, res) => {
-  //req -> request -> 전달 받은 데이터나 요청사항
-  //res -> response -> 응답할 내용/방식을 담은 객체
   res.send("bye");
 });
 
-//DOM listener  / server '대기' -> 요청 -> 응답
+app.get("/plans", async (req, res) => {
+  const { data, error } = await supabase.from("tour_plan").select("*");
+  if (error) {
+    return res.status(400).json({ error: error.message });
+  }
+  res.json(data);
+});
+app.post("/plans", async (req, res) => {
+  const plan = req.body;
+  const { error } = await supabase.from("tour_plan").insert(plan);
+  if (error) {
+    return res.status(400).json({ error: error.message });
+  }
+  res.status(201).json();
+});
+
+app.delete("/plans", async (req, res) => {
+  const { planId } = req.body;
+  const { error } = await supabase.from("tour_plan").delete().eq("id", planId);
+  if (error) {
+    return res.status(400).json({ error: error.message });
+  }
+  res.status(204).json();
+});
+
 app.listen(port, () => {
-  console.log(`서버가 ${port}번 포트에서 실행중입니다.`);
+  console.log(`서버가 ${port}번 포트로 실행 중입니다.`);
 });
