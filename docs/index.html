@@ -38,7 +38,7 @@
       // 함수
       async function renderPlans() {
         //const url = "http://localhost:3000/plans";
-        const url = "https://one001-phase01.onrender.com/";
+        const url = "https://one001-phase01.onrender.com";
         const response = await fetch(`${url}/plans`);
         const data = await response.json();
         console.log(data);
@@ -61,7 +61,7 @@
             // const planId = p.id;
             const { id: planId } = p;
             //const url = "http://localhost:3000/plans";
-            const url = "https://one001-phase01.onrender.com/";
+            const url = "https://one001-phase01.onrender.com";
             const response = await fetch(`${url}/plans`, {
               method: "DELETE", // #1
               headers: {
