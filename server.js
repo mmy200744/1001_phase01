@@ -13,7 +13,7 @@ const port = 3000; //cra. next -> express. / 5173.
 app.get("/", (req, res) => {
   //req -> request -> 전달 받은 데이터나 요청사항
   //res -> response -> 응답할 내용/방식을 담은 객체
-  res.send("hello");
+  res.send("bye");
 });
 
 //DOM listener  / server '대기' -> 요청 -> 응답
