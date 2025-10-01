@@ -1,0 +1,26 @@
+{
+  "name": "1001_phase01",
+  "version": "1.0.0",
+  "description": "1. Live Server (5500) /Express (3000) 연동\r 2. Supabase 세팅 + DOM/Fetch\r 3. Gemini, Groq -> Chaining, Ensemble\r 4. 배포 (Github Pages, Render)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmy200744/1001_phase01.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmy200744/1001_phase01/issues"
+  },
+  "homepage": "https://github.com/mmy200744/1001_phase01#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
